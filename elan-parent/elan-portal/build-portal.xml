@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="bjpip-portal" default="patch_without_compile">
+    <!-- TLBADX 项目 -->
+    <property name="project.name" value="bjpip-portal" />
+    <tstamp><format property="date.today" pattern="yyyyMMdd" /></tstamp>
+    <!-- svn提交change日志 -->
+    <property name="change.log" value="./portalChangeLog.txt" />
+    <!-- 补丁包所在目录 -->
+    <property name="build.dir" value="./release" />
+    <!-- 读取svn日志提取出新增和修改文件 获取补丁包包含的文件 -->
+    <property name="patch.includesfile" value="${build.dir}/patchfiles.txt" />
+    <!-- 补丁包名称 -->
+    <property name="dest.tar" value="${project.name}-${date.today}_update.tar" />
+	<!-- common项目jar 目录 -->
+	<property name="common_project.dir" value="D:/eclipse-jee-mars-1-win32-x86_64/workspace/"/>
+	<property name="common_project.name" value="bjpip-common"/>
+	<property name="common_project.version" value="0.0.1"/>
+
+    <!-- - - - - - - - - - target:从svn日志中，取出checkin文件 - - - - - - - - - -->
+    <target name="patchfile" depends="init" description="处理 svn_changge 日志 ">
+        <!-- 去掉 SVN日志中的注释，只保留Added和Modified记录 -->
+        <concat destfile="${patch.includesfile}" append="false" force="true">
+            <fileset file="${change.log}" />
+            <filterchain>
+                <containsregex byline="true" pattern="^([\s]+)(?:A|M)([\s]+)(.+)$" replace="\3" />
+            </filterchain>
+        </concat>
+
+        <!-- 将src目录替换为classes目录 主要针对提交的代码 -->
+        <replaceregexp file="${patch.includesfile}" byline="true">
+            <!-- (?:X) X作为非捕获组 相当于java的group概念 提取出代码的相对路径 -->
+            <regexp pattern="^/.+/(?:java)/(.+)\..+$" />
+            <substitution expression="\1*.class" />
+        </replaceregexp>
+        <!-- 替换掉WebRoot/前面的路径 主要针对提交.js .css 等图片页面文件 -->
+        <replaceregexp file="${patch.includesfile}" byline="true">
+            <!-- (?=X) 从句子前面读取 如果X前面为空直接略过。 前面不为空的执行替换操作 -->
+            <regexp pattern="^/.+/(?=webapp/)" />
+            <substitution expression="" />
+        </replaceregexp>
+         <!-- 替换掉资源文件 -->
+        <replaceregexp file="${patch.includesfile}" byline="true">
+            <!-- (?=X) 从句子前面读取 如果X前面为空直接略过。 前面不为空的执行替换操作 -->
+            <regexp pattern="^/.+/(?:resources)/(.+)$" />
+            <substitution expression="\1" />
+        </replaceregexp>
+        
+    </target>
+
+    <!-- - - - - - - - - - target:package - - - - - - - - - -->
+    <target name="package" description="补丁包">
+        <copy todir="${build.dir}/tmp" overwrite="true">
+            <fileset dir="./src/main" includesfile="${patch.includesfile}" />
+        </copy>
+        
+        <copy todir="${build.dir}/tmp/webapp/WEB-INF/classes" overwrite="true">
+            <fileset dir="./target/classes" includesfile="${patch.includesfile}" />
+        </copy>
+    	
+    	<copy todir="${build.dir}/tmp/webapp/WEB-INF/lib" overwrite="true">
+    		<fileset dir="${common_project.dir}/bjpip-parent/bjpip-common/target">
+    			<include name="${common_project.name}.jar"/>
+    		</fileset>
+    	</copy>
+    	
+    	<move file="${build.dir}/tmp/webapp/WEB-INF/lib/${common_project.name}.jar" tofile="${build.dir}/tmp/webapp/WEB-INF/lib/${common_project.name}-${common_project.version}-SNAPSHOT.jar"/>
+        
+        <tar destfile="${build.dir}/${dest.tar}">
+			<tarfileset dir="${build.dir}/tmp/webapp">
+				<include name="**"/>
+			</tarfileset>		
+		</tar>
+    </target>
+
+    <!-- - - - - - - - - - target:release without compile - - - - - - - - - -->
+    <target name="patch_without_compile" depends="patchfile, package" description="--> release">
+        <echo>补丁包打包结束</echo>
+    </target>
+    
+    <!-- - - - - - - - - -target: init - - - - - - - - - -->
+    <target name="init" depends="clean">
+        <mkdir dir="${build.dir}/tmp"/>
+    </target>
+    <!-- - - - - - - - - -target: clean - - - - - - - - - -->
+    <target name="clean">
+        <delete dir="${build.dir}" />
+    </target>
+    
+</project>

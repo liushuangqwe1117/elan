@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<!-- shiroFilter 与 web.xml 对应 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login.html" />
+		<property name="successUrl" value="/main.html" />
+		<property name="unauthorizedUrl" value="/403.html" />
+		<property name="filters">
+			<util:map>
+				<entry key="authc" value-ref="captchaFormAuthenticationFilter" />
+				<entry key="perms" value-ref="myPermsFilter" />
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions">
+			<!-- 正则表达式匹配规则 转义字符：问号用"\\?"，等号用"\\="，AND符号用"&amp;" 例如匹配如下， /example/action.do\\?account.id\\=\d+&amp;other\\=ok=authc,su,perms[XXX] 
+				表示请求地址"/example/action.do?action.id=023&other=ok"需要 authc,su 和perms过滤。 而"/example/action.do?action.id=ABC&other=ok"则不需要authc和perms过滤。 -->
+			<value>
+				/=anon
+				/login*=authc
+				/logout*=anon
+				/home*=authc
+				
+				/styles/**=anon
+				/scripts/**=anon
+				/files/**=anon
+				/images/**=anon
+
+				/hessian/**=anon
+
+				#last
+				/** = authc
+			</value>
+		</property>
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="jdbcShiroRealm" />
+	</bean>
+
+	<!-- 权限验证 -->
+	<bean id="myPermsFilter" class="com.redrock.elan.mgm.system.shiro.MyPerms" />
+
+	<!-- 登录授权认证 -->
+	<bean id="captchaFormAuthenticationFilter" class="com.redrock.elan.mgm.system.shiro.CaptchaFormAuthenticationFilter">
+		<property name="usernameParam" value="j_username" />
+		<property name="passwordParam" value="j_password" />
+		<property name="captchaParam" value="j_captcha" />
+	</bean>
+
+	<!-- JDBC Realm -->
+	<bean id="jdbcShiroRealm" class="com.redrock.elan.mgm.system.shiro.MyShiroRealm">
+		<property name="credentialsMatcher" ref="myCredentialsMatcher" />
+		<property name="cacheManager" ref="shiroCacheManager" />
+	</bean>
+	<bean id="myCredentialsMatcher" class="com.redrock.elan.mgm.system.shiro.MyCredentialsMatcher" />
+
+	<!-- ehcahe缓存 -->
+	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+	
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>

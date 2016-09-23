@@ -1,0 +1,21 @@
+<decorators defaultdir="/WEB-INF/views/decorators">
+    <excludes>
+        <pattern>/resources/*</pattern>
+        <pattern>*/webservices/*</pattern>
+        <pattern>*/remoting/*</pattern>
+        <pattern>*/hessian/*</pattern>
+        <pattern>/images/*</pattern>
+        <pattern>/scripts/*</pattern>
+        <pattern>/styles/*</pattern>
+        <pattern>/403*</pattern>
+    </excludes>
+    
+    <decorator name="html_body" page="html_body.jsp"/>
+    <decorator name="html_head" page="html_head.jsp"/>
+    <decorator name="html_title" page="html_title.jsp"/>
+	<!-- 
+    <decorator name="main" page="layout_main.jsp">
+        <pattern>/</pattern>
+    </decorator> -->
+
+</decorators>

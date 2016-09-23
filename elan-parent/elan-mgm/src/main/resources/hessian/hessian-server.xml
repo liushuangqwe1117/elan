@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+   	<bean name="/busiAccessoryAppService" parent="hessianServer">  
+        <property name="service" ref="busiAccessoryAppService" />  
+        <property name="serviceInterface" value="com.redrock.elan.common.project.mgm.app.BusiAccessoryAppService" />  
+    </bean>
+    
+    <bean name="/busiGoodsAppService" parent="hessianServer">  
+        <property name="service" ref="busiGoodsAppService" />  
+        <property name="serviceInterface" value="com.redrock.elan.common.project.mgm.app.BusiGoodsAppService" />  
+    </bean>
+    
+    <bean name="/busiPearlAppService" parent="hessianServer">  
+        <property name="service" ref="busiPearlAppService" />  
+        <property name="serviceInterface" value="com.redrock.elan.common.project.mgm.app.BusiPearlAppService" />  
+    </bean>
+    
+    <bean name="/busiProductPropertyAppService" parent="hessianServer">  
+        <property name="service" ref="busiProductPropertyAppService" />  
+        <property name="serviceInterface" value="com.redrock.elan.common.project.mgm.app.BusiProductPropertyAppService" />  
+    </bean>
+</beans>

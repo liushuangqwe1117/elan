@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.redrock.elan.mgm.busi.dao.BusiProductPropertyDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.redrock.elan.common.project.mgm.dto.busi.BusiProductPropertyDto" >
+    <id column="ID" property="id" jdbcType="CHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="NORD" property="nord" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TYPE, NAME,NORD
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from busi_product_property
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from busi_product_property
+    where ID = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiProductPropertyDto" >
+    insert into busi_product_property (ID, TYPE, NAME,NORD)
+    values (#{id,jdbcType=CHAR}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{nord,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiProductPropertyDto" >
+    insert into busi_product_property
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="nord != null" >
+        NORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nord != null" >
+        #{nord,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiProductPropertyDto" >
+    update busi_product_property
+    <set >
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nord != null" >
+        NORD = #{nord,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiProductPropertyDto" >
+    update busi_product_property
+    set TYPE = #{type,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      NORD = #{nord,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <select id="listByType" resultMap="BaseResultMap">
+  	select * from busi_product_property 
+  	<where>
+  		<if test="type != null">
+  			TYPE = #{type,jdbcType=VARCHAR} 
+  		</if>
+  	</where>
+  	order by TYPE desc ,nord asc 
+  </select>
+  <select id="listByTypes" resultMap="BaseResultMap">
+  	select * from busi_product_property where TYPE in 
+  	<foreach collection="typeList" item="type" open="(" close=")" separator=",">
+  		#{type,jdbcType=VARCHAR}
+  	</foreach>
+  	order by TYPE desc ,nord asc 
+  </select>
+  <select id="queryByRef" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	select sum(c) from (
+	  	select count(*) as c from busi_pearl where 
+	  	  NAME = #{id,jdbcType=CHAR} or 
+	      NLEVEL = #{id,jdbcType=CHAR} or
+	      POINT_ONE = #{id,jdbcType=CHAR} or
+	      POINT_TWO = #{id,jdbcType=CHAR} or
+	      CIRCLE = #{id,jdbcType=CHAR} or
+	      QUALITY = #{id,jdbcType=CHAR} or
+	      LUMINOSITY = #{pp,jdbcType=CHAR} or
+	      CATEGORY = #{id,jdbcType=CHAR} or
+	      PROD_PLACE = #{id,jdbcType=CHAR}
+	      union 
+	      select count(*) as c from busi_goods where 
+	       CATEGORY = #{category,jdbcType=CHAR} or 
+	      STYLE = #{style,jdbcType=CHAR} 
+	      union
+	      select count(*) as c from busi_accessory where 
+	      CATEGORY = #{category,jdbcType=CHAR} or 
+	      STYLE = #{style,jdbcType=CHAR} or 
+	      MATERIAL = #{material,jdbcType=CHAR} or
+	      WEIGHT = #{weight,jdbcType=CHAR}  
+     ) t 
+  </select>
+</mapper>

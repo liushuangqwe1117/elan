@@ -1,0 +1,134 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.redrock.elan</groupId>
+		<artifactId>elan-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>elan-portal</artifactId>
+	<packaging>war</packaging>
+
+	<dependencies>
+		<!-- 系统公用接口 -->
+		<dependency>
+			<groupId>com.redrock.elan</groupId>
+			<artifactId>elan-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- framework -->
+		<dependency>
+			<groupId>org.ylinkpay.framework</groupId>
+			<artifactId>framework-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ylinkpay.framework</groupId>
+			<artifactId>framework-web-mvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ylinkpay.framework</groupId>
+			<artifactId>framework-remoting-hessian</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ylinkpay.framework</groupId>
+			<artifactId>framework-support</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code</groupId>
+			<artifactId>captcha-kaptcha</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ylinkpay.framework</groupId>
+			<artifactId>framework-test</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.lightssh</groupId>
+			<artifactId>lightcore</artifactId>
+		</dependency>
+		
+		<!-- 权限框架Shiro依赖 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-aspectj</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>portal</finalName>
+		<plugins>
+			<!-- jetty插件, 设定端口与context path -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<configuration>
+					<webAppConfig>
+						<contextPath>/${project.build.finalName}</contextPath>
+					</webAppConfig>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+				</configuration>
+			</plugin>
+			<!-- tomcat7:run -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<configuration>
+					<path>/${project.build.finalName}</path>
+					<!-- 端口号默认 8080 <port>8080</port> -->
+					<port>9090</port>
+					<argLine>-Xms512m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=256M
+					</argLine>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     2016-05-18                                                 
+     
+     project：跨境B2B综合支付服务平台
+     description：生成tar包用的Ant脚本
+     ====================================================================== -->
+<project name="bjpip" default="default">
+
+	<property name="appName" value="bjpip-portal"/>
+	<property name="RELEASE_DIR" value="./tar" />
+	<property name="JAVA_DIR" value="./target" />
+	<property name="WEB_DIR" value="./src/main/webapp" />
+	<property name="TEMP_DIR" value="./temp" />
+	<property name="destEncoding" value="UTF-8" />
+	<!-- ================================= 
+          target: 默认任务
+         ================================= -->
+	<target name="default" depends="packWebApp,clean" description="">
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: init 初始化
+         - - - - - - - - - - - - - - - - - -->
+	<target name="init">
+		<tstamp>
+			<format property="TODAY" pattern="yyyyMMdd" locale="cn" />
+		</tstamp>
+
+		<mkdir dir="${TEMP_DIR}/${appName}" />
+
+		<!-- 复制所有文件到临时目录 -->
+		<copy todir="${TEMP_DIR}/${appName}" overwrite="true">
+			<fileset dir="${WEB_DIR}" includesfile="updateFileList/update_${TODAY}.txt" />
+		</copy>
+	
+		<copy todir="${TEMP_DIR}/${appName}/WEB-INF" overwrite="true">
+			<fileset dir="${JAVA_DIR}" includesfile="updateFileList/update_${TODAY}.txt" />
+		</copy>
+		
+	</target>
+
+	<!-- 创建增量更新tar所存放的目录 -->
+	<mkdir dir="${RELEASE_DIR}" />
+
+	<!-- 生产部署tar 包 -->
+	<target name="packWebApp" depends="init">
+		<tar destfile="${RELEASE_DIR}/${appName}-${TODAY}_update.tar">
+			<tarfileset dir="${TEMP_DIR}">
+				<include name="**/*.*"/>
+			</tarfileset>		
+		</tar> 
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: clean 清理
+         - - - - - - - - - - - - - - - - - -->
+	<target name="clean">
+		<delete dir="${TEMP_DIR}" />
+	</target>
+	
+	<target name="rebuild" depends="clean"/>
+</project>

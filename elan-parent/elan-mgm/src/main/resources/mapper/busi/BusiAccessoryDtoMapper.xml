@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.redrock.elan.mgm.busi.dao.BusiAccessoryDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.redrock.elan.common.project.mgm.dto.busi.BusiAccessoryDto" >
+    <id column="ID" property="id" jdbcType="CHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="CATEGORY" property="category" jdbcType="CHAR" />
+    <result column="STYLE" property="style" jdbcType="CHAR" />
+    <result column="MATERIAL" property="material" jdbcType="CHAR" />
+    <result column="NSIZE" property="nsize" jdbcType="CHAR" />
+    <result column="WEIGHT" property="weight" jdbcType="CHAR" />
+    <result column="MARKET_PRICE" property="marketPrice" jdbcType="DECIMAL" />
+    <result column="DISCOUNT" property="discount" jdbcType="VARCHAR" />
+    <result column="PROXY_PRICE" property="proxyPrice" jdbcType="DECIMAL" />
+    <result column="MIN_PIC" property="minPic" jdbcType="VARCHAR" />
+    <result column="MAX_PIC" property="maxPic" jdbcType="VARCHAR" />
+    <result column="INVENTORY" property="inventory" jdbcType="DECIMAL" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="NORDER" property="norder" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ExtBaseResultMap" type="com.redrock.elan.common.project.mgm.dto.busi.BusiAccessoryDto" extends="BaseResultMap">
+  	<result column="CATEGORY_SHOW" property="categoryShow" jdbcType="VARCHAR" />
+    <result column="STYLE_SHOW" property="styleShow" jdbcType="VARCHAR" />
+    <result column="MATERIAL_SHOW" property="materialShow" jdbcType="VARCHAR" />
+    <result column="WEIGHT_SHOW" property="weightShow" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CODE, CATEGORY, STYLE, MATERIAL, NSIZE, WEIGHT, MARKET_PRICE, DISCOUNT, PROXY_PRICE, 
+    MIN_PIC, MAX_PIC, INVENTORY, REMARK, NORDER, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ExtBaseResultMap" parameterType="java.lang.String" >
+    select a.*,
+    	t1.NAME AS CATEGORY_SHOW,
+    	t2.NAME AS STYLE_SHOW,
+    	t3.NAME AS MATERIAL_SHOW,
+    	t5.NAME AS WEIGHT_SHOW 
+    from busi_accessory a
+    left join busi_product_property t1 on t1.ID = a.CATEGORY 
+    left join busi_product_property t2 on t2.ID = a.STYLE 
+    left join busi_product_property t3 on t3.ID = a.MATERIAL 
+    left join busi_product_property t5 on t5.ID = a.WEIGHT  
+    where a.ID = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from busi_accessory
+    where ID = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiAccessoryDto" >
+    insert into busi_accessory (ID, CODE, CATEGORY, 
+      STYLE, MATERIAL, NSIZE, WEIGHT, 
+      MARKET_PRICE, DISCOUNT, PROXY_PRICE, 
+      MIN_PIC, MAX_PIC, INVENTORY, 
+      REMARK, NORDER, CREATE_TIME
+      )
+    values (#{id,jdbcType=CHAR}, #{code,jdbcType=VARCHAR}, #{category,jdbcType=CHAR}, 
+      #{style,jdbcType=CHAR}, #{material,jdbcType=CHAR}, #{nsize,jdbcType=CHAR}, #{weight,jdbcType=CHAR}, 
+      #{marketPrice,jdbcType=DECIMAL}, #{discount,jdbcType=VARCHAR}, #{proxyPrice,jdbcType=DECIMAL}, 
+      #{minPic,jdbcType=VARCHAR}, #{maxPic,jdbcType=VARCHAR}, #{inventory,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{norder,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiAccessoryDto" >
+    insert into busi_accessory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="category != null" >
+        CATEGORY,
+      </if>
+      <if test="style != null" >
+        STYLE,
+      </if>
+      <if test="material != null" >
+        MATERIAL,
+      </if>
+      <if test="nsize != null" >
+        NSIZE,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE,
+      </if>
+      <if test="discount != null" >
+        DISCOUNT,
+      </if>
+      <if test="proxyPrice != null" >
+        PROXY_PRICE,
+      </if>
+      <if test="minPic != null" >
+        MIN_PIC,
+      </if>
+      <if test="maxPic != null" >
+        MAX_PIC,
+      </if>
+      <if test="inventory != null" >
+        INVENTORY,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="norder != null" >
+        NORDER,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=CHAR},
+      </if>
+      <if test="style != null" >
+        #{style,jdbcType=CHAR},
+      </if>
+      <if test="material != null" >
+        #{material,jdbcType=CHAR},
+      </if>
+      <if test="nsize != null" >
+        #{nsize,jdbcType=CHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=CHAR},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyPrice != null" >
+        #{proxyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minPic != null" >
+        #{minPic,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPic != null" >
+        #{maxPic,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="norder != null" >
+        #{norder,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiAccessoryDto" >
+    update busi_accessory
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        CATEGORY = #{category,jdbcType=CHAR},
+      </if>
+      <if test="style != null" >
+        STYLE = #{style,jdbcType=CHAR},
+      </if>
+      <if test="material != null" >
+        MATERIAL = #{material,jdbcType=CHAR},
+      </if>
+      <if test="nsize != null" >
+        NSIZE = #{nsize,jdbcType=CHAR},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=CHAR},
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE = #{marketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        DISCOUNT = #{discount,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyPrice != null" >
+        PROXY_PRICE = #{proxyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="minPic != null" >
+        MIN_PIC = #{minPic,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPic != null" >
+        MAX_PIC = #{maxPic,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null" >
+        INVENTORY = #{inventory,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="norder != null" >
+        NORDER = #{norder,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiAccessoryDto" >
+    update busi_accessory
+    set CODE = #{code,jdbcType=VARCHAR},
+      CATEGORY = #{category,jdbcType=CHAR},
+      STYLE = #{style,jdbcType=CHAR},
+      MATERIAL = #{material,jdbcType=CHAR},
+      NSIZE = #{nsize,jdbcType=CHAR},
+      WEIGHT = #{weight,jdbcType=CHAR},
+      MARKET_PRICE = #{marketPrice,jdbcType=DECIMAL},
+      DISCOUNT = #{discount,jdbcType=VARCHAR},
+      PROXY_PRICE = #{proxyPrice,jdbcType=DECIMAL},
+      MIN_PIC = #{minPic,jdbcType=VARCHAR},
+      MAX_PIC = #{maxPic,jdbcType=VARCHAR},
+      INVENTORY = #{inventory,jdbcType=DECIMAL},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      NORDER = #{norder,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <select id="list" parameterType="com.redrock.elan.common.project.mgm.dto.busi.BusiAccessoryDto" resultMap="ExtBaseResultMap">
+  	select a.*,
+    	t1.NAME AS CATEGORY_SHOW,
+    	t2.NAME AS STYLE_SHOW,
+    	t3.NAME AS MATERIAL_SHOW,
+    	t5.NAME AS WEIGHT_SHOW 
+    from busi_accessory a
+    left join busi_product_property t1 on t1.ID = a.CATEGORY 
+    left join busi_product_property t2 on t2.ID = a.STYLE 
+    left join busi_product_property t3 on t3.ID = a.MATERIAL
+    left join busi_product_property t5 on t5.ID = a.WEIGHT  
+    <where>
+    	<if test="code != null and code != ''">
+  			a.code like concat('%',concat(#{code},'%')) 
+  		</if>
+  		<if test="category != null and category != ''">
+  			and a.CATEGORY = #{category} 
+  		</if>
+  		<if test="style != null and style != ''">
+  			and a.STYLE = #{style} 
+  		</if>
+  		<if test="material != null and material != ''">
+  			and a.MATERIAL = #{material} 
+  		</if>
+  		<if test="nsize != null and nsize != ''">
+  			and a.NSIZE = #{nsize} 
+  		</if>
+  		<if test="weight != null and weight != ''">
+  			and a.WEIGHT = #{weight} 
+  		</if>
+  		<if test="zeroNoShow">
+  			and a.INVENTORY != 0 
+  		</if>
+    </where>
+    order by a.NORDER asc 
+  </select>
+  <select id="findByIds" resultMap="ExtBaseResultMap">
+  	select a.*,
+    	t1.NAME AS CATEGORY_SHOW,
+    	t2.NAME AS STYLE_SHOW,
+    	t3.NAME AS MATERIAL_SHOW,
+    	t5.NAME AS WEIGHT_SHOW 
+    from busi_accessory a
+    left join busi_product_property t1 on t1.ID = a.CATEGORY 
+    left join busi_product_property t2 on t2.ID = a.STYLE 
+    left join busi_product_property t3 on t3.ID = a.MATERIAL
+    left join busi_product_property t5 on t5.ID = a.WEIGHT  
+    where a.id in 
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+    	#{id}
+    </foreach>
+  </select>
+</mapper>

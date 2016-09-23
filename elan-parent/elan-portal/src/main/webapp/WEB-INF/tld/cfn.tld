@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+    
+  <description>JSTL 1.1 functions library</description>
+  <display-name>JSTL functions</display-name>
+  <tlib-version>1.1</tlib-version>
+  <short-name>cfn</short-name>
+  <uri>http://www.ylinkpay.org/tags/cfn</uri>
+
+  <function>
+    <description>
+      get enum dispalyName
+    </description>
+    <name>getDisplayName</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String getDisplayName(java.lang.String, java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:getDisplayName(enumCls, value)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      format date yyyyMMdd to yyyy-MM-dd
+    </description>
+    <name>formatYMD</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String formatYMD(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:formatYMD(value)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      format date yyyyMMdd to yyyy/MM/dd HH:mm:ss
+    </description>
+    <name>formatYMD2</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String formatYMD2(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:formatYMD2(value)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      format date yyyyMMdd to yyyy/MM/dd
+    </description>
+    <name>formatYMD3</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String formatYMD3(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:formatYMD3(value)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      format money to yuan with ,##0.00
+    </description>
+    <name>formatMoney</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String formatMoney(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:formatMoney(value)}"&gt;
+    </example>
+  </function>
+  
+    <function>
+    <description>
+      format substrby4
+    </description>
+    <name>substrby4</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String substrby4(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:substrby4(value)}"&gt;
+    </example>
+  </function>
+   <function>
+    <description>
+      format substrby6
+    </description>
+    <name>substrby6</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String substrby6(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:substrby6(value)}"&gt;
+    </example>
+  </function>
+   <function>
+    <description>
+      format substrby8
+    </description>
+    <name>substrby8</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String substrby8(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:substrby8(value)}"&gt;
+    </example>
+  </function>
+   <function>
+    <description>
+      format substrby10
+    </description>
+    <name>substrby10</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String substrby10(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:substrby10(value)}"&gt;
+    </example>
+  </function>
+   <function>
+    <description>
+      format substrby15
+    </description>
+    <name>substrby15</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String substrby15(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:substrby15(value)}"&gt;
+    </example>
+  </function>
+  
+   <function>
+    <description>
+      format substr
+    </description>
+    <name>substr</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String substr(java.lang.String, int)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:substr(value, 6)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      format money to yuan with ,##0.00
+    </description>
+    <name>parseMoneyWith2Point</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String parseMoneyWith2Point(java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:parseMoneyWith2Point(value)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      The number will be formatted as 6222***1222
+    </description>
+    <name>substrBankCard</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String substrBankCard(java.lang.String, int, int)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:substrBankCard(value, 4, 4)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      The number will be formatted as 1222
+    </description>
+    <name>tail</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String tail(java.lang.String, int)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:tail(value, 4)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      The number will be formatted as **** **** **** 1222
+    </description>
+    <name>bankCard</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String bankCard(java.lang.String, int)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:bankCard(value, 4)}"&gt;
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      .....
+    </description>
+    <name>getCurShortName</name>
+    <function-class>com.unionpay.epsp.portal.taglib.CustomFunctionTag</function-class>
+    <function-signature>String getCurShortName(java.lang.String, java.lang.String)</function-signature>
+    <example>
+      &lt;c:out value="${cfn:getCurShortName(langCode, currCode)}"&gt;
+    </example>
+  </function>
+  
+</taglib>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.redrock.elan.mgm.security.dao.SecPermDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.redrock.elan.common.project.mgm.dto.security.SecPermDto" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="NLEVEL" property="nlevel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, NLEVEL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sec_perm
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sec_perm
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.redrock.elan.common.project.mgm.dto.security.SecPermDto" >
+    insert into sec_perm (ID, NAME, NLEVEL
+      )
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{nlevel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.redrock.elan.common.project.mgm.dto.security.SecPermDto" >
+    insert into sec_perm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="nlevel != null" >
+        NLEVEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nlevel != null" >
+        #{nlevel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.redrock.elan.common.project.mgm.dto.security.SecPermDto" >
+    update sec_perm
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nlevel != null" >
+        NLEVEL = #{nlevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.redrock.elan.common.project.mgm.dto.security.SecPermDto" >
+    update sec_perm
+    set NAME = #{name,jdbcType=VARCHAR},
+      NLEVEL = #{nlevel,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="listPermID" resultType="java.lang.String">
+  	select ID from sec_perm 
+  </select>
+  <select id="listAll" resultMap="BaseResultMap">
+  	select * from sec_perm 
+  </select>
+  <update id="updateRolePerms">
+  	insert into sec_role_perm(role_id,perm_id) values
+  	<foreach collection="perms" item="perm" separator="," >
+  		(#{role},#{perm})
+  	</foreach>
+  </update>
+  <delete id="deleteByRole">
+  	delete from sec_role_perm where role_id = #{role} 
+  </delete>
+  <select id="findPermIDByRole" parameterType="java.lang.String" resultType="java.lang.String">
+  	select 
+    	distinct perm_id 
+    from sec_role_perm 
+    where role_id = #{role}
+  </select>
+</mapper>

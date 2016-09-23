@@ -1,0 +1,25 @@
+.ui-dialog .ui-dialog-content {
+	padding:0px;
+	background-color:#FFF;
+}
+.ui-widget-content {
+	border:1px solid #eda7a7;
+	background:#FFF url('');
+}
+.ui-widget-header {
+	border:0px;
+	border-bottom:1px solid #eda7a7;
+	background:#fff7f8 url('');
+}
+.ui-icon-closethick {
+	background: url(../../../images/red/closebg.gif) no-repeat 0 0 !important
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+	border: 1px solid #eda7a7;
+	background:#FFF url('');
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	border: 1px solid #ea9495;
+	background:#f3d5d5 url('');
+	color:#cf3c10;
+}
